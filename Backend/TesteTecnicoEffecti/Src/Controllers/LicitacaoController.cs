@@ -22,48 +22,95 @@ public class LicitacaoController : Controller
         this.licitacaoService = licitacaoService;
     }
 
+    [HttpGet("apply-migrations")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(500)]
+    public IActionResult ApplyMigrations()
+    {
+        try
+        {
+            context.Database.EnsureCreated();
+            return Ok(new { message = "Migrations aplicadas com sucesso." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro ao aplicar as migrations: " + ex.Message });
+        }
+    }
+
+
     [HttpGet]
-    [ProducesResponseType(typeof(PaginationResultDto<ResponseLicitacaoDto>), 200)]
+    [ProducesResponseType(typeof(PaginatedResultDTO<ResponseLicitacaoDTO>), 200)]
     [ProducesResponseType(400)]
     public IActionResult Query(
        [FromQuery] LicitacaoQuery query
     )
     {
-        var licitacoesQuery = context.Licitacoes.AsQueryable();
-
-        if (!string.IsNullOrEmpty(query.Uasg))
+        try
         {
-            licitacoesQuery = licitacoesQuery.Where(l => l.CodigoUASG == query.Uasg);
-        }
 
-        if (!string.IsNullOrEmpty(query.Pregao))
-        {
-            licitacoesQuery = licitacoesQuery.Where(l => l.NumeroPregao == query.Pregao);
-        }
+            var licitacoesQuery = context.Licitacoes.AsQueryable();
 
-        int totalItems = licitacoesQuery.Count();
-
-        var licitacoes = licitacoesQuery
-            .Skip((query.Page - 1) * query.PageSize)
-            .Take(query.PageSize)
-            .Select(l => new ResponseLicitacaoDto
+            if (!string.IsNullOrEmpty(query.Uasg))
             {
-                Id = l.Id.ToString(),
-                Pregao = l.NumeroPregao,
-                Uasg = l.CodigoUASG
-            })
-            .ToList();
+                licitacoesQuery = licitacoesQuery.Where(l => l.CodigoUASG.Contains(query.Uasg));
+            }
 
-        var result = new PaginationResultDto<ResponseLicitacaoDto>
+            if (!string.IsNullOrEmpty(query.Pregao))
+            {
+                licitacoesQuery = licitacoesQuery.Where(l => l.NumeroPregao.Contains(query.Pregao));
+            }
+
+            int totalItems = licitacoesQuery.Count();
+
+            var licitacoes = licitacoesQuery
+                .Skip((query.Page - 1) * query.PageSize)
+                .Take(query.PageSize)
+                .Select(l => new ResponseLicitacaoDTO
+                {
+                    Id = l.Id.ToString(),
+                    Pregao = l.NumeroPregao,
+                    Uasg = l.CodigoUASG,
+                    Fax = l.Fax,
+                    Telefone = l.Telefone,
+                    Instituicao = l.Instituicao,
+                    Orgao = l.Orgao,
+                    DataDisponibilizacaoEdital = l.DataDisponibilizacaoEdital,
+                    HoraInicioEdital = l.HoraInicioEdital,
+                    HoraFimEdital = l.HoraFimEdital,
+                    DataEntregaProposta = l.DataEntregaProposta,
+                    HoraEntregaProposta = l.HoraEntregaProposta,
+                    EnderecoEntrega = l.EnderecoEntrega,
+                    Objeto = l.Objeto,
+                    Itens = l.Itens.Select(i => new ResponseItemLicitacaoDTO
+                    {
+                        Id = i.Id.ToString(),
+                        Descricao = i.Descricao,
+                        Quantidade = i.Quantidade,
+                        Nome = i.Nome,
+                        UnidadeFornecimento = i.UnidadeFornecimento,
+                        Aplicabilidade7174 = i.Aplicabilidade7174,
+                        AplicabilidadeMargemPreferencia = i.AplicabilidadeMargemPreferencia,
+                        TratamentoDiferenciado = i.TratamentoDiferenciado
+                    }).ToList()
+                })
+                .ToList();
+
+            var result = new PaginatedResultDTO<ResponseLicitacaoDTO>
+            {
+                TotalItems = totalItems,
+                Page = query.Page,
+                PageSize = query.PageSize,
+                TotalPages = (int)Math.Ceiling((double)totalItems / query.PageSize),
+                Data = licitacoes
+            };
+
+            return Ok(result);
+        }
+        catch (Exception ex)
         {
-            TotalItems = totalItems,
-            Page = query.Page,
-            PageSize = query.PageSize,
-            TotalPages = (int)Math.Ceiling((double)totalItems / query.PageSize),
-            Items = licitacoes
-        };
-
-        return Ok(result);
+            return BadRequest(new { message = "Erro ao consultar licitações: " + ex.Message });
+        }
     }
 
     [HttpGet("sync")]
