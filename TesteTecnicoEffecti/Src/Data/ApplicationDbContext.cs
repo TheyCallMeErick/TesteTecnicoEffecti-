@@ -19,4 +19,6 @@ public class ApplicationDbContext : DbContext
     }
 
     public virtual DbSet<Licitacao> Licitacoes { get; set; }
+    public virtual DbSet<ItemLicitacao> ItensLicitacoes { get; set; }
+
 }

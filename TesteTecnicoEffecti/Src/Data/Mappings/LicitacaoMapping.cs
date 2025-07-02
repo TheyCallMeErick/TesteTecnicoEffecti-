@@ -14,23 +14,23 @@ public class LicitacaoMapping : IEntityTypeConfiguration<Licitacao>
 
             builder.Property(e => e.Orgao)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             builder.Property(e => e.Universidade)
                 .IsRequired()
-                .HasMaxLength(150);
+                .HasMaxLength(255);
 
             builder.Property(e => e.Instituicao)
                 .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(255);
 
             builder.Property(e => e.CodigoUASG)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(255);
 
             builder.Property(e => e.NumeroPregao)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(255);
 
             builder.Property(e => e.Objeto)
                 .IsRequired()
@@ -50,10 +50,10 @@ public class LicitacaoMapping : IEntityTypeConfiguration<Licitacao>
                 .HasMaxLength(250);
 
             builder.Property(e => e.Telefone)
-                .HasMaxLength(20);
+                .HasMaxLength(255);
 
             builder.Property(e => e.Fax)
-                .HasMaxLength(20);
+                .HasMaxLength(255);
 
             builder.Property(e => e.DataEntregaProposta)
                 .HasColumnType("date");

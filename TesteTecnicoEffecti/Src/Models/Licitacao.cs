@@ -25,4 +25,6 @@ public class Licitacao
 
     public DateTime DataEntregaProposta { get; set; }
     public TimeSpan HoraEntregaProposta { get; set; }
+
+    public List<ItemLicitacao> Itens { get; set; } = new();
 }
