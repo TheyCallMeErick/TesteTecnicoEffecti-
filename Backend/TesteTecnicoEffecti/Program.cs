@@ -8,7 +8,7 @@ builder.Services.AddScoped<TesteTecnicoEffecti.Src.Services.ILicitacaoService, T
 builder.Services.AddScoped<IConsultaLicitacoesFacade, ConsultaLicitacoesFacade>();
 
 builder.Services.AddOpenApi();
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -20,6 +20,12 @@ app.MapControllers();
 
 app.UseHttpsRedirection();
 
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 
 app.Run();
