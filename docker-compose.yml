@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    tty: true
+    env_file:
+        ./backend/.env.prod
+    working_dir: /var/www
+    depends_on:
+            - database
+    networks:
+            - app_network
+  database:
+        image: mysql:9.3.0
+        hostname: db
+        ports:
+            - 33068:3306
+        environment:
+            MYSQL_DATABASE: teste
+            MYSQL_ROOT_PASSWORD: 123
+        networks:
+            - app_network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - app_network
+
+networks:
+    app_network:
+        driver: bridge
