@@ -16,9 +16,6 @@ public class LicitacaoMapping : IEntityTypeConfiguration<Licitacao>
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(e => e.Universidade)
-                .IsRequired()
-                .HasMaxLength(255);
 
             builder.Property(e => e.Instituicao)
                 .IsRequired()

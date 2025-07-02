@@ -5,7 +5,6 @@ public class Licitacao
     public Guid Id { get; set; }
 
     public string Orgao { get; set; } = string.Empty;
-    public string Universidade { get; set; } = string.Empty;
     public string Instituicao { get; set; } = string.Empty;
 
     public string CodigoUASG { get; set; } = string.Empty;

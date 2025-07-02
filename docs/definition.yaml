@@ -1,0 +1,109 @@
+openapi: 3.0.1
+info:
+  title: TesteTecnicoEffecti | v1
+  version: 1.0.0
+servers:
+  - url: http://localhost:5041/
+paths:
+  /api/Licitacao:
+    get:
+      tags:
+        - Licitacao
+      parameters:
+        - name: Uasg
+          in: query
+          schema:
+            type: string
+        - name: Pregao
+          in: query
+          schema:
+            type: string
+        - name: Page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: PageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginationResultDtoOfResponseLicitacaoDto"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+  /api/Licitacao/sync:
+    get:
+      tags:
+        - Licitacao
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+        "500":
+          description: Internal Server Error
+          content:
+            application/json: {}
+components:
+  schemas:
+    PaginationResultDtoOfResponseLicitacaoDto:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResponseLicitacaoDto"
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+    ResponseLicitacaoDto:
+      type: object
+      properties:
+        id:
+          type: string
+        uasg:
+          type: string
+          nullable: true
+        pregao:
+          type: string
+          nullable: true
+tags:
+  - name: Licitacao
