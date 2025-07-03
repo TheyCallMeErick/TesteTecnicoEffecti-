@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TesteTecnicoEffecti.Migrations
 {
     /// <inheritdoc />
-    public partial class firstmigrations : Migration
+    public partial class firstmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +20,6 @@ namespace TesteTecnicoEffecti.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Orgao = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Universidade = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Instituicao = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -56,16 +54,16 @@ namespace TesteTecnicoEffecti.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Nome = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Descricao = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    Descricao = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TratamentoDiferenciado = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    TratamentoDiferenciado = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Aplicabilidade7174 = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    Aplicabilidade7174 = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AplicabilidadeMargemPreferencia = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    AplicabilidadeMargemPreferencia = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
-                    UnidadeFornecimento = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
+                    UnidadeFornecimento = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LicitacaoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
@@ -85,6 +83,16 @@ namespace TesteTecnicoEffecti.Migrations
                 name: "IX_ItensLicitacao_LicitacaoId",
                 table: "ItensLicitacao",
                 column: "LicitacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Licitacoes_CodigoUASG",
+                table: "Licitacoes",
+                column: "CodigoUASG");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Licitacoes_NumeroPregao",
+                table: "Licitacoes",
+                column: "NumeroPregao");
         }
 
         /// <inheritdoc />

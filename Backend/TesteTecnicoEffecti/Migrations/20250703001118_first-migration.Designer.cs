@@ -12,8 +12,8 @@ using TesteTecnicoEffecti.Src.Data;
 namespace TesteTecnicoEffecti.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250702012034_first-migrations")]
-    partial class firstmigrations
+    [Migration("20250703001118_first-migration")]
+    partial class firstmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,18 +33,15 @@ namespace TesteTecnicoEffecti.Migrations
 
                     b.Property<string>("Aplicabilidade7174")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("AplicabilidadeMargemPreferencia")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("LicitacaoId")
                         .HasColumnType("char(36)");
@@ -59,13 +56,11 @@ namespace TesteTecnicoEffecti.Migrations
 
                     b.Property<string>("TratamentoDiferenciado")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UnidadeFornecimento")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -135,12 +130,11 @@ namespace TesteTecnicoEffecti.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Universidade")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CodigoUASG");
+
+                    b.HasIndex("NumeroPregao");
 
                     b.ToTable("Licitacoes", (string)null);
                 });

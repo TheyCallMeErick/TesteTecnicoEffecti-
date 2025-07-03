@@ -20,26 +20,26 @@ public class ItemLicitacaoMapping : IEntityTypeConfiguration<ItemLicitacao>
 
         builder.Property(x => x.Descricao)
             .IsRequired()
-            .HasMaxLength(1000);
+            .HasColumnType("text");
 
         builder.Property(x => x.TratamentoDiferenciado)
             .IsRequired()
-            .HasMaxLength(1000);
+            .HasColumnType("text");
 
         builder.Property(x => x.Aplicabilidade7174)
             .IsRequired()
-            .HasMaxLength(1000);
+            .HasColumnType("text");
 
         builder.Property(x => x.AplicabilidadeMargemPreferencia)
             .IsRequired()
-            .HasMaxLength(1000);
+            .HasColumnType("text");
 
         builder.Property(x => x.Quantidade)
             .IsRequired();
 
         builder.Property(x => x.UnidadeFornecimento)
             .IsRequired()
-            .HasMaxLength(1000);
+            .HasColumnType("text");
 
         builder.Property(x => x.LicitacaoId)
             .IsRequired();
