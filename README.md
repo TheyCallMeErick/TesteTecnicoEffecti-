@@ -178,9 +178,8 @@ Aplicação que consome a API e exibe os dados.
 
 ### Otimizações realizadas
 - Os dados retornados pela API são paginados, evitando sobrecarga ao lidar com grandes volumes de informações.
-- O scrapping foi implementado como um serviço assíncrono, configurado para rodar a cada 8 horas (embora, na prática, não seja utilizado continuamente devido ao teste).
+- O scrapping foi implementado como um serviço assíncrono, configurado para rodar a cada 8 horas (embora, na prática, não seja utilizado continuamente devido ao teste), sendo assim, devido ao cenário do teste, foi implementado apenas um botão para disparar essa ação, isso leva um certo tempo.
 - Foram criados índices nos principais campos de busca das licitações para otimizar as consultas ao banco de dados.
-
 - O HTML instável do site foi tratado com lógica de fallback para prevenir quebras, no entanto podem ocorrer situações inesperadas.
 - Devido ao fato do site fazer uma consulta diária, ao verificar as 00:00, não há registros, esse cenário foi previsto e tratado.
 
