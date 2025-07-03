@@ -23,6 +23,9 @@ public class LicitacaoController : Controller
     }
 
     [HttpGet("apply-migrations")]
+    [EndpointSummary("Aplica as migrations no banco de dados.")]
+    [EndpointDescription("Força a criação das tabelas do banco de dados com base nas entidades definidas.")]
+    [EndpointName("ApplyMigrations")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
     public IActionResult ApplyMigrations()
@@ -38,8 +41,10 @@ public class LicitacaoController : Controller
         }
     }
 
-
     [HttpGet]
+    [EndpointSummary("Consulta paginada de licitações com filtros.")]
+    [EndpointDescription("Retorna uma lista de licitações com base nos filtros de UASG, Pregão, página e tamanho da página.")]
+    [EndpointName("QueryLicitacoes")]
     [ProducesResponseType(typeof(PaginatedResultDTO<ResponseLicitacaoDTO>), 200)]
     [ProducesResponseType(400)]
     public IActionResult Query(
@@ -114,6 +119,9 @@ public class LicitacaoController : Controller
     }
 
     [HttpGet("sync")]
+    [EndpointSummary("Sincroniza os dados de licitações com fonte externa.")]
+    [EndpointDescription("Importa licitações de fontes externas e salva no banco de dados.")]
+    [EndpointName("SincronizarLicitacoes")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
     public async Task<IActionResult> Sync()

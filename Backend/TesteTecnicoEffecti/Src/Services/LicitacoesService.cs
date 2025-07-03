@@ -21,7 +21,7 @@ public class LicitacoesService : ILicitacaoService
         {
 
             var last = dbContext.Licitacoes.OrderByDescending(a => a.Id).FirstOrDefault();
-            var licitacoes = await licitacoesFacade.QueryAll(last);
+            var licitacoes = licitacoesFacade.QueryAll(last);
             await dbContext.Licitacoes.AddRangeAsync(licitacoes);
             await dbContext.SaveChangesAsync();
         }

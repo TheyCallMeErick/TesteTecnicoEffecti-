@@ -5,10 +5,31 @@ info:
 servers:
   - url: http://localhost:5041/
 paths:
+  /api/Licitacao/apply-migrations:
+    get:
+      tags:
+        - Licitacao
+      summary: Aplica as migrations no banco de dados.
+      description: Força a criação das tabelas do banco de dados com base nas
+        entidades definidas.
+      operationId: ApplyMigrations
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+        "500":
+          description: Internal Server Error
+          content:
+            application/json: {}
   /api/Licitacao:
     get:
       tags:
         - Licitacao
+      summary: Consulta paginada de licitações com filtros.
+      description: Retorna uma lista de licitações com base nos filtros de UASG,
+        Pregão, página e tamanho da página.
+      operationId: QueryLicitacoes
       parameters:
         - name: Uasg
           in: query
@@ -34,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaginationResultDtoOfResponseLicitacaoDto"
+                $ref: "#/components/schemas/PaginatedResultDTOOfResponseLicitacaoDTO"
         "400":
           description: Bad Request
           content:
@@ -45,6 +66,9 @@ paths:
     get:
       tags:
         - Licitacao
+      summary: Sincroniza os dados de licitações com fonte externa.
+      description: Importa licitações de fontes externas e salva no banco de dados.
+      operationId: SincronizarLicitacoes
       responses:
         "200":
           description: OK
@@ -56,7 +80,7 @@ paths:
             application/json: {}
 components:
   schemas:
-    PaginationResultDtoOfResponseLicitacaoDto:
+    PaginatedResultDTOOfResponseLicitacaoDTO:
       type: object
       properties:
         totalItems:
@@ -71,10 +95,10 @@ components:
         totalPages:
           type: integer
           format: int32
-        items:
+        data:
           type: array
           items:
-            $ref: "#/components/schemas/ResponseLicitacaoDto"
+            $ref: "#/components/schemas/ResponseLicitacaoDTO"
     ProblemDetails:
       type: object
       properties:
@@ -94,16 +118,65 @@ components:
         instance:
           type: string
           nullable: true
-    ResponseLicitacaoDto:
+    ResponseItemLicitacaoDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        tratamentoDiferenciado:
+          type: string
+        aplicabilidade7174:
+          type: string
+        aplicabilidadeMargemPreferencia:
+          type: string
+        quantidade:
+          type: integer
+          format: int32
+        unidadeFornecimento:
+          type: string
+    ResponseLicitacaoDTO:
       type: object
       properties:
         id:
           type: string
         uasg:
           type: string
-          nullable: true
         pregao:
           type: string
-          nullable: true
+        objeto:
+          type: string
+        orgao:
+          type: string
+        instituicao:
+          type: string
+        dataDisponibilizacaoEdital:
+          type: string
+          format: date-time
+        horaInicioEdital:
+          pattern: ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$
+          type: string
+        horaFimEdital:
+          pattern: ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$
+          type: string
+        enderecoEntrega:
+          type: string
+        telefone:
+          type: string
+        fax:
+          type: string
+        dataEntregaProposta:
+          type: string
+          format: date-time
+        horaEntregaProposta:
+          pattern: ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$
+          type: string
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResponseItemLicitacaoDTO"
 tags:
   - name: Licitacao

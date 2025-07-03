@@ -39,7 +39,7 @@ public class ConsultaLicitacoesFacade : IConsultaLicitacoesFacade
         throw new Exception();
     }
 
-    public async Task<IEnumerable<Licitacao>> QueryAll(Licitacao? ultimaLicitacaoProcessada)
+    public  IEnumerable<Licitacao> QueryAll(Licitacao? ultimaLicitacaoProcessada)
     {
         var count = GetPagination();
         List<Licitacao> licitacoes = new();

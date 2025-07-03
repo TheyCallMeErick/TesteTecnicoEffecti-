@@ -5,6 +5,6 @@ namespace TesteTecnicoEffecti.Src.Facades;
 
 public interface IConsultaLicitacoesFacade
 {
-    public Task<IEnumerable<Licitacao>> QueryAll(Licitacao? ultimaLicitacaoProcessada);
+    public IEnumerable<Licitacao> QueryAll(Licitacao? ultimaLicitacaoProcessada);
     public LicitacoesPaginationOutputDTO GetPagination();
 }

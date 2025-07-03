@@ -2,7 +2,7 @@ namespace TesteTecnicoEffecti.Src.DTOs.Responses;
 
 public class ResponseItemLicitacaoDTO
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
     public string Nome { get; set; } = string.Empty; 
     public string Descricao { get; set; } = string.Empty; 
     public string TratamentoDiferenciado { get; set; } = string.Empty;
