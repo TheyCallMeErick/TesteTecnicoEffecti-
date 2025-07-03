@@ -21,9 +21,14 @@
 
     <div v-if="loading" class="text-center">Carregando...</div>
     <div v-if="error" class="error-message">{{ error }}</div>
+    <div v-if="error" class="error-message">
+      <button @click="migrateDatabase" class="search-button">Migrar o banco e tentar novamente</button>
+    </div>
+
     <div v-if="!loading && !error" class="licitacoes-list">
       <LicitacaoComponent v-if="licitacoes.length > 0" :licitacao="licitacao" v-for="licitacao in licitacoes" :key="licitacao.id" />
       <div v-if="licitacoes.length === 0" >Nenhuma licitação encontrada.</div>
+      <button @click="syncLicitacoes" class="search-button">Buscar licitações</button>
     </div>
     <div v-if="totalItems > 0" class="pagination-container">
       <button @click="previousPage" :disabled="page <= 1" class="pagination-button">
@@ -44,6 +49,7 @@
 import type { Licitacao } from '@/types/licitacao';
 import { defineComponent } from 'vue';
 import LicitacaoComponent from '@/components/LicitacaoComponent.vue';
+import { configs } from '@/utils/configs';
 export default defineComponent({
   name: 'LicitacoesView',
   components: {
@@ -86,7 +92,7 @@ export default defineComponent({
       this.loading = true;
       this.error = null;
       try {
-        const response = await fetch(`http://localhost:5041/api/Licitacao?page=${this.page}&pageSize=${this.pageSize}&uasg=${this.query.uasg}&pregao=${this.query.pregao}`, {
+        const response = await fetch(`http://${configs.apiUrl}:${configs.apiPort}/api/Licitacao?page=${this.page}&pageSize=${this.pageSize}&uasg=${this.query.uasg}&pregao=${this.query.pregao}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -107,6 +113,51 @@ export default defineComponent({
       } finally {
         this.loading = false;
       }
+    },
+    async migrateDatabase() {
+      try {
+        const response = await fetch(`http://${configs.apiUrl}:${configs.apiPort}/api/Licitacao/apply-migrations`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Erro ao migrar o banco de dados: ' + response.statusText);
+        }
+        this.fetchLicitacoes();
+      } catch (error) {
+        if (error instanceof Error) {
+          this.error = error.message;
+        } else {
+          this.error = 'Um erro inesperado ocorreu.';
+        }
+      }
+    },
+    async syncLicitacoes() {
+      try {
+       this.loading = true;
+
+        const response = await fetch(`http://${configs.apiUrl}:${configs.apiPort}/api/Licitacao/sync`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Erro ao sincronizar licitações: ' + response.statusText);
+        }
+        this.fetchLicitacoes();
+      } catch (error) {
+        if (error instanceof Error) {
+          this.error = error.message;
+        } else {
+          this.error = 'Um erro inesperado ocorreu.';
+        }
+      }finally {
+        this.loading = false;
+      }
+
     },
     previousPage() {
       if (this.page > 1) {

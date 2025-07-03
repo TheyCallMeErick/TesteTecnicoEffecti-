@@ -9,7 +9,7 @@ public class ApplicationDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseMySql("server=localhost;port=3306;database=tasks;uid=root;pwd=123", ServerVersion.Parse("5.7.42-mysql"));
+            optionsBuilder.UseMySql("server=db;port=3306;database=teste_tecnico_effecti;uid=root;pwd=123", ServerVersion.Parse("5.7.42-mysql"));
         }
     }
 

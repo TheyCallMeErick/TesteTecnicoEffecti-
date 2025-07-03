@@ -3,24 +3,26 @@ WORKDIR /app
 
 RUN corepack enable
 
-COPY package.json  package-lock.json ./
-
-RUN npm i
+COPY package.json package-lock.json ./
+RUN npm install
 
 COPY . ./
 
+ARG VITE_API_URL
+ARG VITE_API_PORT
+
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_PORT=$VITE_API_PORT
+
 RUN npm run build
 
-
-FROM node:22-alpine
+FROM node:22-alpine AS production
 WORKDIR /app
 
-COPY --from=build /app/.output/ ./
+RUN npm install -g serve
 
-ENV PORT=80
-ENV HOST=0.0.0.0
-
+COPY --from=build /app/dist /app/dist
 
 EXPOSE 80
 
-CMD ["node", "/app/server/index.mjs"]
+CMD ["serve", "-s", "dist", "-l", "80"]

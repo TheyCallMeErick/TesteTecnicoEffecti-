@@ -3,36 +3,40 @@ version: '3'
 services:
   backend:
     build:
-      context: ./backend
+      context: ./Backend
       dockerfile: Dockerfile
     container_name: backend
     restart: unless-stopped
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:5041
     tty: true
-    env_file:
-        ./backend/.env.prod
-    working_dir: /var/www
+    ports:
+      - "5041:5041"
     depends_on:
             - database
     networks:
-            - app_network
+      - app_network
   database:
         image: mysql:9.3.0
         hostname: db
-        ports:
-            - 33068:3306
         environment:
-            MYSQL_DATABASE: teste
+            MYSQL_DATABASE: teste_tecnico_effecti
             MYSQL_ROOT_PASSWORD: 123
         networks:
-            - app_network
+        - app_network
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: localhost
+        VITE_API_PORT: 5041
     container_name: frontend
     restart: unless-stopped
+    depends_on:
+      - backend
     ports:
-      - "3000:80"
+      - "8080:80"
     networks:
       - app_network
 
