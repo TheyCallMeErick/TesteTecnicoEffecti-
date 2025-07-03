@@ -12,7 +12,7 @@ using TesteTecnicoEffecti.Src.Data;
 namespace TesteTecnicoEffecti.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250703001118_first-migration")]
+    [Migration("20250703001433_first-migration")]
     partial class firstmigration
     {
         /// <inheritdoc />
@@ -41,7 +41,7 @@ namespace TesteTecnicoEffecti.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("LONGTEXT");
 
                     b.Property<Guid>("LicitacaoId")
                         .HasColumnType("char(36)");

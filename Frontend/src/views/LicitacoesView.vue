@@ -28,7 +28,7 @@
     <div v-if="!loading && !error" class="licitacoes-list">
       <LicitacaoComponent v-if="licitacoes.length > 0" :licitacao="licitacao" v-for="licitacao in licitacoes" :key="licitacao.id" />
       <div v-if="licitacoes.length === 0" >Nenhuma licitação encontrada.</div>
-      <button @click="syncLicitacoes" class="search-button">Buscar licitações</button>
+      <button  v-if="licitacoes.length === 0" @click="syncLicitacoes" class="search-button">Buscar licitações</button>
     </div>
     <div v-if="totalItems > 0" class="pagination-container">
       <button @click="previousPage" :disabled="page <= 1" class="pagination-button">

@@ -20,7 +20,7 @@ public class ItemLicitacaoMapping : IEntityTypeConfiguration<ItemLicitacao>
 
         builder.Property(x => x.Descricao)
             .IsRequired()
-            .HasColumnType("text");
+            .HasColumnType("LONGTEXT");
 
         builder.Property(x => x.TratamentoDiferenciado)
             .IsRequired()

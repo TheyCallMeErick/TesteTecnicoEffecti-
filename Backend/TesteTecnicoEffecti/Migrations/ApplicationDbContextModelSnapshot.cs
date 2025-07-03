@@ -38,7 +38,7 @@ namespace TesteTecnicoEffecti.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("LONGTEXT");
 
                     b.Property<Guid>("LicitacaoId")
                         .HasColumnType("char(36)");

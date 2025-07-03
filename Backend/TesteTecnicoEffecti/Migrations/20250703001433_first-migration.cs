@@ -54,7 +54,7 @@ namespace TesteTecnicoEffecti.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Nome = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Descricao = table.Column<string>(type: "text", nullable: false)
+                    Descricao = table.Column<string>(type: "LONGTEXT", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TratamentoDiferenciado = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

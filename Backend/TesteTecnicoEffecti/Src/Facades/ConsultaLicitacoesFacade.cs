@@ -127,6 +127,11 @@ public class ConsultaLicitacoesFacade : IConsultaLicitacoesFacade
                     continue;
                 }
                 item.Descricao = Regex.Match(texto, @"^(.+?)Tratamento Diferenciado:").Groups[1].Value.Trim();
+                if(item.Descricao.Length > 1000)
+                {
+                    item.Descricao = item.Descricao.Substring(0, 1000);
+                    Console.WriteLine(item.Descricao);
+                }
                 item.TratamentoDiferenciado = Regex.Match(texto, @"Tratamento Diferenciado:\s*(.+)Aplicabilidade Decreto").Groups[1].Value.Trim();
                 item.Aplicabilidade7174 = Regex.Match(texto, @"Aplicabilidade Decreto 7174:\s*(sim|n[aã]o)", RegexOptions.IgnoreCase).Groups[1].Value.Trim();
                 item.AplicabilidadeMargemPreferencia = Regex.Match(texto, @"Aplicabilidade Margem de Preferência:\s*(sim|n[aã]o)", RegexOptions.IgnoreCase).Groups[1].Value.Trim();
